@@ -112,7 +112,7 @@ export default function Hero() {
               >
                 {[
                   { icon: ShieldCheck, label: "ISO Certified" },
-                  { icon: Award, label: "10+ Industries" },
+                  { icon: Award, label: "50+ Industries" },
                 ].map(({ icon: Icon, label }) => (
                   <div key={label} className="flex items-center gap-2 text-[11px] font-bold text-brand-dark/45 uppercase tracking-widest">
                     <Icon className="w-4 h-4 text-brand-secondary flex-shrink-0" />
@@ -137,7 +137,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" as const }}
-                className="relative ml-auto w-[80%] sm:w-[62%] lg:w-[78%] overflow-hidden"
+                className="relative mx-auto w-[80%] sm:w-[62%] lg:w-[78%] overflow-hidden"
                 style={{
                   aspectRatio: "3/4",
                   boxShadow: "0 40px 100px -20px rgba(0,0,0,0.55), 0 0 0 1px rgba(200,155,60,0.12)",
@@ -145,7 +145,7 @@ export default function Hero() {
               >
                 {/* Real photo */}
                 <Image
-                  src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1000&auto=format&fit=crop"
+                  src="/home.jpg"
                   alt="Professional corporate team"
                   fill
                   className="object-cover object-center"

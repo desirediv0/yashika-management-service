@@ -1,14 +1,13 @@
 import CTASection from "@/components/CTASection";
 import IndustryCard from "@/components/IndustryCard";
 import SectionHeading from "@/components/SectionHeading";
-import ImagePlaceholder from "@/components/ImagePlaceholder";
 import {
   Factory, Stethoscope, Laptop, Plane,
   ShoppingBag, Truck, Landmark, Building2,
-  Shield, HeartPulse, GraduationCap, Zap,
   CheckCircle2, ArrowRight,
 } from "lucide-react";
 import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Industries We Serve | Yashika Management Services",
@@ -16,18 +15,14 @@ export const metadata: Metadata = {
 };
 
 const industries = [
-  { title: "Banking & Finance", icon: <Landmark className="w-6 h-6" /> },
-  { title: "IT & Technology", icon: <Laptop className="w-6 h-6" /> },
-  { title: "Healthcare & Pharma", icon: <Stethoscope className="w-6 h-6" /> },
-  { title: "Manufacturing", icon: <Factory className="w-6 h-6" /> },
-  { title: "Aviation & Aerospace", icon: <Plane className="w-6 h-6" /> },
-  { title: "Retail & E-commerce", icon: <ShoppingBag className="w-6 h-6" /> },
-  { title: "Logistics & Supply Chain", icon: <Truck className="w-6 h-6" /> },
-  { title: "Construction & Real Estate", icon: <Building2 className="w-6 h-6" /> },
-  { title: "Defense & Security", icon: <Shield className="w-6 h-6" /> },
-  { title: "Hospitality", icon: <HeartPulse className="w-6 h-6" /> },
-  { title: "Education & EdTech", icon: <GraduationCap className="w-6 h-6" /> },
-  { title: "Energy & Utilities", icon: <Zap className="w-6 h-6" /> },
+  { title: "Banking & Finance", icon: <Landmark className="w-6 h-6" />, image: "/banking-finance.jpg" },
+  { title: "IT & Technology", icon: <Laptop className="w-6 h-6" />, image: "/it-technology.jpg" },
+  { title: "Healthcare & Pharma", icon: <Stethoscope className="w-6 h-6" />, image: "/healthcare.jpg" },
+  { title: "Manufacturing", icon: <Factory className="w-6 h-6" />, image: "/manufacturing.jpg" },
+  { title: "Aviation & Aerospace", icon: <Plane className="w-6 h-6" />, image: "/aviation.jpg" },
+  { title: "Retail & E-commerce", icon: <ShoppingBag className="w-6 h-6" />, image: "/retail.jpg" },
+  { title: "Logistics & Supply Chain", icon: <Truck className="w-6 h-6" />, image: "/logistics.jpg" },
+  { title: "Construction & Real Estate", icon: <Building2 className="w-6 h-6" />, image: "/construction.jpg" },
 ];
 
 const expertisePoints = [
@@ -76,7 +71,7 @@ export default function IndustriesPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.5), transparent)" }}
         />
 
-        <div className="relative z-10 container mx-auto px-6 md:px-10 xl:px-16 pt-36 pb-20 md:pt-44 md:pb-24">
+        <div className="relative z-10 max-w-7xl mx-auto px-3 md:px-5 xl:px-16 pt-36 pb-20 md:pt-44 md:pb-24">
           {/* Eyebrow */}
           <div className="flex items-center gap-3 mb-6 justify-center">
             <span className="w-8 h-px bg-brand-secondary/70" />
@@ -136,13 +131,14 @@ export default function IndustriesPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.3), transparent)" }}
         />
 
-        <div className="container mx-auto px-6 md:px-10 xl:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5 xl:px-16 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {industries.map((industry, i) => (
               <IndustryCard
                 key={industry.title}
                 title={industry.title}
                 icon={industry.icon}
+                image={industry.image}
                 delay={i * 0.04}
               />
             ))}
@@ -166,7 +162,7 @@ export default function IndustriesPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.3), transparent)" }}
         />
 
-        <div className="container mx-auto px-6 md:px-10 xl:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5 xl:px-16 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
             {/* ── Copy ── */}
@@ -218,7 +214,13 @@ export default function IndustriesPage() {
                 className="relative overflow-hidden aspect-[4/5]"
                 style={{ boxShadow: "0 32px 80px -20px rgba(11,44,95,0.18)" }}
               >
-                <ImagePlaceholder altText="Industry Expertise" dark aspect="portrait" />
+                <Image
+                  src="/it-technology.jpg"
+                  alt="Industry Expertise"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 90vw, 45vw"
+                />
               </div>
 
               {/* Stat overlay — bottom left */}

@@ -31,18 +31,18 @@ const values = [
 ];
 
 const milestones = [
-  { year: "2012", event: "Founded in Jhajjar, Haryana with a focus on local corporate staffing." },
-  { year: "2015", event: "Expanded to BPO services; onboarded first Fortune 500 client." },
-  { year: "2018", event: "Launched pan-India operations across 10+ major cities." },
-  { year: "2022", event: "Crossed 500+ corporate clients and 10,000+ professionals placed." },
-  { year: "2024", event: "Introduced AI-assisted screening and advanced HRIS integration." },
+  { year: "2012", event: "Yashika Management Services founded to bridge the gap between talent and visionary companies." },
+  { year: "2015", event: "Established excellence in providing skilled professionals for permanent positions." },
+  { year: "2018", event: "Expanded services to include flexible contractual and temporary staffing solutions." },
+  { year: "2021", event: "Reached the milestone of 1000+ corporate clients served across India." },
+  { year: "2024", event: "Recognized as a leading strategic HR consulting and talent management partner." },
 ];
 
 const keyStats = [
-  { value: "10+", label: "Years Experience", icon: TrendingUp },
-  { value: "500+", label: "Corporate Clients", icon: Users },
-  { value: "10k+", label: "Professionals Placed", icon: Globe },
-  { value: "98.5%", label: "Placement Rate", icon: Award },
+  { value: "500+", label: "Placements", icon: TrendingUp },
+  { value: "1000+", label: "Clients Served", icon: Users },
+  { value: "50+", label: "Industries", icon: Globe },
+  { value: "12+", label: "Years Experience", icon: Award },
 ];
 
 export default function AboutPage() {
@@ -84,7 +84,7 @@ export default function AboutPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.5), transparent)" }}
         />
 
-        <div className="relative z-10 container mx-auto px-6 md:px-10 xl:px-16 pt-36 pb-20 md:pt-44 md:pb-24 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-3 md:px-5 xl:px-16 pt-36 pb-20 md:pt-44 md:pb-24 text-center">
           {/* Eyebrow */}
           <div className="flex items-center gap-3 mb-6 justify-center">
             <span className="w-8 h-px bg-brand-secondary/70" />
@@ -145,7 +145,7 @@ export default function AboutPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.3), transparent)" }}
         />
 
-        <div className="container mx-auto px-6 md:px-10 xl:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5 xl:px-16 relative z-10">
           <div className="grid lg:grid-cols-2 gap-14 xl:gap-24 items-center">
 
             {/* Image */}
@@ -186,22 +186,18 @@ export default function AboutPage() {
 
               <div className="space-y-5 text-brand-dark/58 text-base md:text-[1.05rem] leading-relaxed mb-10">
                 <p>
-                  Yashika Management Services was founded with a singular vision: to bridge the gap between exceptional
-                  talent and visionary enterprises. Over the years, we have evolved from a boutique recruitment firm into
-                  a comprehensive corporate solutions provider.
+                  Yashika Management Services was founded with a clear mission: to bridge the gap between talented professionals and forward-thinking companies. Since our inception, we&apos;ve been committed to delivering exceptional staffing solutions that drive business growth and career advancement. Our success is built on integrity, professionalism, and a deep understanding of market dynamics.
                 </p>
                 <p>
-                  Our commitment to quality, compliance, and speed has made us the preferred partner for Fortune 500
-                  companies across India. We believe that a company&apos;s greatest asset is its people — and our mission
-                  is to ensure you have the best.
+                  We specialize in connecting exceptional talent with organizations that value excellence. We meticulously match candidates with opportunities, ensuring long-term success and organizational growth. Our comprehensive approach includes permanent staffing, contractual placements, and strategic HR consulting tailored to your business needs.
                 </p>
               </div>
 
               {/* Key metrics — sharp grid */}
               <div className="grid grid-cols-2 gap-3 mb-10">
                 {[
-                  { value: "10+", label: "Years of Excellence" },
-                  { value: "500+", label: "Corporate Clients" },
+                  { value: "12+", label: "Years of Excellence" },
+                  { value: "1000+", label: "Corporate Clients" },
                 ].map(({ value, label }) => (
                   <div
                     key={label}
@@ -235,6 +231,27 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ════ TESTIMONIAL ════ */}
+      <section className="py-16 md:py-24 bg-[#F8FAFC]">
+        <div className="max-w-7xl mx-auto px-4 md:px-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="w-12 h-12 bg-brand-secondary/10 flex items-center justify-center mx-auto mb-8 rounded-full">
+              <span className="text-brand-secondary font-serif text-3xl">&quot;</span>
+            </div>
+            <blockquote className="text-xl md:text-2xl font-serif text-brand-dark leading-relaxed mb-8 italic">
+              &quot;Yashika Management Services has been instrumental in building our team with exceptional talent. Their professionalism and understanding of our business needs have delivered outstanding results consistently.&quot;
+            </blockquote>
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 rounded-full bg-brand-primary/10 flex items-center justify-center mb-4 overflow-hidden border-2 border-brand-secondary/20">
+                <Users className="w-8 h-8 text-brand-primary/40" />
+              </div>
+              <div className="font-bold text-brand-dark text-lg">Priya Singh</div>
+              <div className="text-brand-secondary text-xs uppercase tracking-widest font-bold">HR Director, Corporate Partner</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ════ TIMELINE ════ */}
       <section className="py-12 md:py-16 bg-brand-primary relative overflow-hidden">
         {/* Dot grid */}
@@ -254,7 +271,7 @@ export default function AboutPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.45), transparent)" }}
         />
 
-        <div className="container mx-auto px-6 md:px-10 xl:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5 xl:px-16 relative z-10">
           <SectionHeading
             badge="Our Journey"
             title={<>Key <span className="text-brand-secondary">Milestones</span></>}
@@ -313,7 +330,7 @@ export default function AboutPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.3), transparent)" }}
         />
 
-        <div className="container mx-auto px-6 md:px-10 xl:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5 xl:px-16 relative z-10">
           <SectionHeading
             badge="Our Guiding Principles"
             title={<>Our Core <span className="text-brand-secondary">Values</span></>}

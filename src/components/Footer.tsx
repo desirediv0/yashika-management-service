@@ -7,16 +7,15 @@ const quickLinks = [
   { name: "About Us", href: "/about" },
   { name: "Our Services", href: "/services" },
   { name: "Industries We Serve", href: "/industries" },
-  { name: "Career", href: "/career" },
   { name: "Contact Us", href: "/contact" },
 ];
 
 const services = [
   { name: "Permanent Staffing", href: "/services" },
-  { name: "Contract Staffing", href: "/services" },
+  { name: "Contractual Services", href: "/services" },
+  { name: "Manpower Solutions", href: "/services" },
   { name: "BPO Services", href: "/services" },
-  { name: "HR Consulting", href: "/services" },
-  { name: "Payroll Management", href: "/services" },
+  { name: "Recruitment Solutions", href: "/services" },
 ];
 
 const socials = [
@@ -48,7 +47,7 @@ export default function Footer() {
       <div className="relative z-10">
         {/* ── CTA Banner ── */}
         <div className="border-b border-white/8">
-          <div className="container mx-auto px-4 md:px-10 py-10">
+          <div className="max-w-7xl mx-auto px-4 md:px-10 py-10">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <p className="text-brand-secondary text-xs font-semibold tracking-[0.2em] uppercase mb-1">
@@ -71,7 +70,7 @@ export default function Footer() {
         </div>
 
         {/* ── Main Footer Grid ── */}
-        <div className="container mx-auto px-4 md:px-10 pt-16 pb-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-10 pt-16 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-14">
 
             {/* Brand Column */}
@@ -206,10 +205,6 @@ export default function Footer() {
               <span className="text-white/15">|</span>
               <Link href="#" className="hover:text-brand-secondary transition-colors px-2 py-1">
                 Terms of Service
-              </Link>
-              <span className="text-white/15">|</span>
-              <Link href="/sitemap" className="hover:text-brand-secondary transition-colors px-2 py-1">
-                Sitemap
               </Link>
             </div>
           </div>

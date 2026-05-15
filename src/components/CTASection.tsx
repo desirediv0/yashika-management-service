@@ -10,7 +10,7 @@ export default function CTASection() {
       {/* Subtle outer glow behind card */}
       <div className="absolute inset-x-8 md:inset-x-20 top-1/2 -translate-y-1/2 h-3/4 rounded-[3rem] bg-brand-primary/8 blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

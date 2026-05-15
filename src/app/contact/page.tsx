@@ -63,7 +63,7 @@ export default function ContactPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.5), transparent)" }}
         />
 
-        <div className="relative z-10 container mx-auto px-6 md:px-10 xl:px-16 pt-36 pb-20 md:pt-44 md:pb-24 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-3 md:px-5 xl:px-16 pt-36 pb-20 md:pt-44 md:pb-24 text-center">
           {/* Eyebrow */}
           <div className="flex items-center gap-3 mb-6 justify-center">
             <span className="w-8 h-px bg-brand-secondary/70" />
@@ -108,7 +108,7 @@ export default function ContactPage() {
           style={{ background: "linear-gradient(to right, transparent, rgba(200,155,60,0.3), transparent)" }}
         />
 
-        <div className="container mx-auto px-6 md:px-10 xl:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-3 md:px-5 xl:px-16 relative z-10">
           <div className="grid lg:grid-cols-[44%_52%] gap-14 xl:gap-20 items-start">
 
             {/* ── Left: info ── */}
