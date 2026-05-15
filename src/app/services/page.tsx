@@ -14,14 +14,14 @@ export const metadata: Metadata = {
 };
 
 const services = [
-  { title: "Permanent Staffing", description: "Strategic talent acquisition for long-term organisational growth and stability. We find leaders who align with your corporate vision.", icon: <Users className="w-5 h-5" /> },
-  { title: "Contract Staffing", description: "Flexible workforce solutions to handle project surges and seasonal demands without long-term overheads.", icon: <Briefcase className="w-5 h-5" /> },
-  { title: "BPO Services", description: "End-to-end business process outsourcing to streamline operations, reduce costs, and enhance customer experience.", icon: <Globe className="w-5 h-5" /> },
-  { title: "HR Consulting", description: "Expert advisory on organisational development, compliance, compensation structuring, and performance management.", icon: <TrendingUp className="w-5 h-5" /> },
-  { title: "Payroll Management", description: "Accurate, compliant, and timely payroll processing solutions integrated with advanced HRIS platforms.", icon: <FileCheck className="w-5 h-5" /> },
-  { title: "Manpower Outsourcing", description: "Comprehensive workforce management letting you focus on core business while we handle personnel operations end-to-end.", icon: <Building2 className="w-5 h-5" /> },
-  { title: "Recruitment Solutions", description: "Tailored headhunting and mass recruitment drives using advanced screening and structured assessment methodologies.", icon: <ShieldCheck className="w-5 h-5" /> },
-  { title: "Industry Expertise", description: "Specialised consultants dedicated to specific verticals ensuring nuanced understanding of your exact requirements.", icon: <HeartHandshake className="w-5 h-5" /> },
+  { title: "Permanent Staffing", description: "Strategic talent acquisition for long-term organisational growth and stability. We find leaders who align with your corporate vision.", icon: <Users className="w-5 h-5" />, image: "/providing-services.jpg" },
+  { title: "Contract Staffing", description: "Flexible workforce solutions to handle project surges and seasonal demands without long-term overheads.", icon: <Briefcase className="w-5 h-5" />, image: "/contractual-services.jpg" },
+  { title: "BPO Services", description: "End-to-end business process outsourcing to streamline operations, reduce costs, and enhance customer experience.", icon: <Globe className="w-5 h-5" />, image: "/bpo-services.jpg" },
+  { title: "HR Consulting", description: "Expert advisory on organisational development, compliance, compensation structuring, and performance management.", icon: <TrendingUp className="w-5 h-5" />, image: "/hr-consulting.jpg" },
+  { title: "Payroll Management", description: "Accurate, compliant, and timely payroll processing solutions integrated with advanced HRIS platforms.", icon: <FileCheck className="w-5 h-5" />, image: "/payroll-management.jpg" },
+  { title: "Manpower Outsourcing", description: "Comprehensive workforce management letting you focus on core business while we handle personnel operations end-to-end.", icon: <Building2 className="w-5 h-5" />, image: "/manpower-solutions.jpg" },
+  { title: "Recruitment Solutions", description: "Tailored headhunting and mass recruitment drives using advanced screening and structured assessment methodologies.", icon: <ShieldCheck className="w-5 h-5" />, image: "/recruitment-solutions.jpg" },
+  { title: "Industry Expertise", description: "Specialised consultants dedicated to specific verticals ensuring nuanced understanding of your exact requirements.", icon: <HeartHandshake className="w-5 h-5" />, image: "/industry-expertise.jpg" },
 ];
 
 const advantages = [
