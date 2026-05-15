@@ -67,13 +67,42 @@ export default function ContactForm() {
     return e;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      return;
+    }
     setErrors({});
     setStatus("submitting");
-    setTimeout(() => setStatus("success"), 2200);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: `Service Inquiry: ${form.service}`,
+          message: form.message,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+      } else {
+        alert("Failed to send message. Please try again later.");
+        setStatus("idle");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("An error occurred. Please try again later.");
+      setStatus("idle");
+    }
   };
 
   const set = (key: string) => (
