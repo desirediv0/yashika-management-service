@@ -15,7 +15,7 @@ import {
   Building2, Globe, HeartHandshake, FileCheck,
   Factory, Stethoscope, Laptop, Plane,
   ShoppingBag, Truck, Landmark,
-  Award, Clock, CheckCircle2,
+  Award, Clock, CheckCircle2, HardHat,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -24,6 +24,7 @@ import { motion } from "framer-motion";
 const services = [
   { title: "Providing Services", description: "Permanent Staffing Solutions", icon: <Users className="w-5 h-5" />, image: "/providing-services.jpg" },
   { title: "Contractual Services", description: "Temporary & Flexible Staffing", icon: <Briefcase className="w-5 h-5" />, image: "/contractual-services.jpg" },
+  { title: "Loubar Manpower Services", description: "Industrial & Heavy Manpower Solutions", icon: <HardHat className="w-5 h-5" />, image: "/loubar-manpower.jpg" },
   { title: "Manpower Solutions", description: "Comprehensive Staff Augmentation", icon: <Building2 className="w-5 h-5" />, image: "/manpower-solutions.jpg" },
   { title: "Recruitment Solutions", description: "Skilled & Verified Candidates", icon: <ShieldCheck className="w-5 h-5" />, image: "/recruitment-solutions.jpg" },
   { title: "Industry Expertise", description: "Multi-sector Operational Solutions", icon: <HeartHandshake className="w-5 h-5" />, image: "/industry-expertise.jpg" },

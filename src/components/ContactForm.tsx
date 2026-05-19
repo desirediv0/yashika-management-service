@@ -1,60 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, Loader2, User, Mail, Phone, ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {
+  Send, CheckCircle2, AlertCircle, Loader2,
+  User, Mail, Phone, ChevronDown,
+} from "lucide-react";
+
+type Status = "idle" | "submitting" | "success" | "error";
 
 const services = [
   "Permanent Staffing",
   "Contract Staffing",
+  "Loubar Manpower Services",
   "BPO Services",
   "HR Consulting",
   "Payroll Management",
+  "Manpower Outsourcing",
+  "Recruitment Solutions",
   "Other",
 ];
 
-interface FieldProps {
-  label: string;
-  error?: string;
-  icon?: React.ReactNode;
-  children: React.ReactNode;
-}
-
-function Field({ label, error, icon, children }: FieldProps) {
-  return (
-    <div className="group relative">
-      <label className="block text-xs font-semibold tracking-wide text-brand-dark/50 uppercase mb-2 transition-colors duration-200 group-focus-within:text-brand-secondary">
-        {label}
-      </label>
-      <div className="relative">
-        {icon && (
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-dark/30 group-focus-within:text-brand-secondary transition-colors duration-200 pointer-events-none">
-            {icon}
-          </span>
-        )}
-        {children}
-      </div>
-      {error && (
-        <p className="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-red-500 inline-block" />
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-const inputBase = cn(
-  "w-full bg-brand-light/60 border border-brand-accent/80 rounded-xl px-4 py-3 text-sm text-brand-dark placeholder:text-brand-dark/30",
-  "transition-all duration-200 outline-none",
-  "focus:bg-white focus:border-brand-secondary focus:ring-2 focus:ring-brand-secondary/12",
-  "hover:border-brand-dark/20"
-);
+/* ── Shared input class — sharp edges, consistent focus ── */
+const inputClass =
+  "w-full bg-[#F8FAFC] border border-brand-accent/70 px-4 py-3 text-[0.88rem] text-brand-dark placeholder:text-brand-dark/28 outline-none transition-all duration-200 focus:bg-white focus:border-brand-primary/50 focus:shadow-[0_0_0_3px_rgba(11,44,95,0.06)] hover:border-brand-dark/20";
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", service: services[0], message: "",
+    name: "", email: "", phone: "", service: "", message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -62,47 +35,9 @@ export default function ContactForm() {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = "Valid email required";
-    if (!form.phone.match(/^[+\d\s\-()]{7,}$/)) e.phone = "Valid phone required";
+    if (form.phone && !form.phone.match(/^[+\d\s\-()]{7,}$/)) e.phone = "Valid phone number required";
     if (!form.message.trim()) e.message = "Please describe your requirements";
     return e;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) {
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    setStatus("submitting");
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          subject: `Service Inquiry: ${form.service}`,
-          message: form.message,
-        }),
-      });
-
-      if (response.ok) {
-        setStatus("success");
-      } else {
-        alert("Failed to send message. Please try again later.");
-        setStatus("idle");
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("An error occurred. Please try again later.");
-      setStatus("idle");
-    }
   };
 
   const set = (key: string) => (
@@ -112,137 +47,235 @@ export default function ContactForm() {
     if (errors[key]) setErrors((er) => { const n = { ...er }; delete n[key]; return n; });
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
+    setStatus("submitting");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: form.service ? `Service Inquiry: ${form.service}` : "General Inquiry",
+          message: form.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+        setForm({ name: "", email: "", phone: "", service: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  /* ── Success ── */
   if (status === "success") {
     return (
-      <div className="bg-white rounded-2xl border border-brand-accent/60 shadow-premium p-12 flex flex-col items-center justify-center text-center min-h-[460px]">
-        <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-5">
-          <CheckCircle className="w-8 h-8 text-green-500" />
+      <div
+        className="relative overflow-hidden flex flex-col items-center justify-center text-center px-10 py-20"
+        style={{
+          background: "linear-gradient(155deg, #1a4080 0%, #0B2C5F 55%, #071e42 100%)",
+          border: "1px solid rgba(200,155,60,0.2)",
+          boxShadow: "0 32px 80px -16px rgba(11,44,95,0.35)",
+        }}
+      >
+        <div className="absolute top-0 left-0 right-0 h-[3px]"
+          style={{ background: "linear-gradient(to right, #C89B3C, #e8c97a 50%, #C89B3C)" }} />
+
+        <div
+          className="w-16 h-16 flex items-center justify-center mb-6"
+          style={{ background: "rgba(200,155,60,0.15)", border: "1px solid rgba(200,155,60,0.35)" }}
+        >
+          <CheckCircle2 className="w-7 h-7 text-brand-secondary" />
         </div>
-        <h3 className="font-serif text-2xl font-bold text-brand-dark mb-3">
-          Inquiry Received!
+
+        <div className="flex items-center gap-3 mb-4 justify-center">
+          <span className="w-5 h-[2px] bg-brand-secondary" />
+          <span className="text-[10px] font-black uppercase tracking-[0.28em] text-brand-secondary">Message Sent</span>
+          <span className="w-5 h-[2px] bg-brand-secondary" />
+        </div>
+
+        <h3 className="font-serif font-bold text-white text-2xl mb-3 leading-snug">
+          We&apos;ll Be In Touch Soon
         </h3>
-        <p className="text-brand-dark/55 text-sm leading-relaxed max-w-xs mb-8">
-          Thank you for reaching out. Our team will get back to you within <span className="font-semibold text-brand-primary">24 hours</span>.
+        <p className="text-white/45 text-[0.88rem] leading-relaxed max-w-xs mb-10">
+          Our team responds within{" "}
+          <span className="text-brand-secondary font-bold">2 business hours</span>.
+          Thank you for reaching out.
         </p>
         <button
-          onClick={() => { setStatus("idle"); setForm({ name: "", email: "", phone: "", service: services[0], message: "" }); }}
-          className="text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors underline underline-offset-2"
+          onClick={() => setStatus("idle")}
+          className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 hover:text-brand-secondary transition-colors duration-200"
         >
-          Submit another inquiry
+          Send Another Message
         </button>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-brand-accent/60 shadow-premium overflow-hidden">
-      {/* Gold top accent */}
-      <div className="h-1 w-full bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary" />
+    <div
+      className="relative overflow-hidden bg-white"
+      style={{
+        border: "1px solid #E2E8F0",
+        boxShadow: "0 16px 48px -12px rgba(11,44,95,0.1)",
+      }}
+    >
+      {/* Gold top border */}
+      <div className="absolute top-0 left-0 right-0 h-[3px]"
+        style={{ background: "linear-gradient(to right, #C89B3C, #e8c97a 50%, #C89B3C)" }} />
 
-      <div className="p-8 md:p-10">
-        <div className="mb-8">
-          <p className="text-brand-secondary text-xs font-semibold tracking-[0.18em] uppercase mb-1.5">
-            Let&apos;s Connect
-          </p>
-          <h3 className="font-serif text-2xl md:text-3xl font-bold text-brand-dark">
-            Send an Inquiry
-          </h3>
+      {/* Form header */}
+      <div className="px-8 pt-9 pb-6 border-b border-brand-accent/60">
+        <div className="flex items-center gap-2.5 mb-2">
+          <span className="w-5 h-[2px] bg-brand-secondary" />
+          <span className="text-[10px] font-black tracking-[0.28em] uppercase text-brand-secondary">
+            Free Consultation
+          </span>
+        </div>
+        <h3 className="font-serif font-bold text-brand-dark text-xl md:text-2xl leading-snug">
+          Send an Enquiry
+        </h3>
+        <p className="text-brand-dark/38 text-[0.8rem] mt-1">
+          Typically replied within 2 business hours
+        </p>
+      </div>
+
+      {/* Form fields */}
+      <form onSubmit={handleSubmit} noValidate className="px-8 py-8 space-y-5">
+
+        {/* Row 1: Name + Phone */}
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-brand-dark/38 mb-1.5">
+              Full Name <span className="text-brand-secondary">*</span>
+            </label>
+            <div className="relative">
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-dark/25 pointer-events-none" />
+              <input
+                type="text" value={form.name} onChange={set("name")}
+                placeholder="Rajiv Sharma"
+                className={`${inputClass} pl-9 ${errors.name ? "border-red-300 focus:border-red-400" : ""}`}
+              />
+            </div>
+            {errors.name && <ErrorMsg msg={errors.name} />}
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-brand-dark/38 mb-1.5">
+              Phone Number
+            </label>
+            <div className="relative">
+              <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-dark/25 pointer-events-none" />
+              <input
+                type="tel" value={form.phone} onChange={set("phone")}
+                placeholder="+91 98765 43210"
+                className={`${inputClass} pl-9 ${errors.phone ? "border-red-300 focus:border-red-400" : ""}`}
+              />
+            </div>
+            {errors.phone && <ErrorMsg msg={errors.phone} />}
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
-          {/* Row 1 */}
-          <div className="grid md:grid-cols-2 gap-5">
-            <Field label="Full Name" error={errors.name} icon={<User className="w-4 h-4" />}>
-              <input
-                type="text"
-                value={form.name}
-                onChange={set("name")}
-                placeholder="John Doe"
-                className={cn(inputBase, "pl-10", errors.name && "border-red-300 focus:border-red-400 focus:ring-red-500/10")}
-              />
-            </Field>
-            <Field label="Email Address" error={errors.email} icon={<Mail className="w-4 h-4" />}>
-              <input
-                type="email"
-                value={form.email}
-                onChange={set("email")}
-                placeholder="john@company.com"
-                className={cn(inputBase, "pl-10", errors.email && "border-red-300 focus:border-red-400 focus:ring-red-500/10")}
-              />
-            </Field>
-          </div>
-
-          {/* Row 2 */}
-          <div className="grid md:grid-cols-2 gap-5">
-            <Field label="Phone Number" error={errors.phone} icon={<Phone className="w-4 h-4" />}>
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={set("phone")}
-                placeholder="+91 98765 43210"
-                className={cn(inputBase, "pl-10", errors.phone && "border-red-300 focus:border-red-400 focus:ring-red-500/10")}
-              />
-            </Field>
-            <Field label="Service Interest" icon={<ChevronDown className="w-4 h-4" />}>
-              <div className="relative">
-                <select
-                  value={form.service}
-                  onChange={set("service")}
-                  className={cn(inputBase, "pr-10 appearance-none cursor-pointer")}
-                >
-                  {services.map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-dark/35 pointer-events-none" />
-              </div>
-            </Field>
-          </div>
-
-          {/* Message */}
-          <Field label="Message" error={errors.message}>
-            <textarea
-              value={form.message}
-              onChange={set("message")}
-              rows={4}
-              placeholder="Tell us about your requirements, headcount, location..."
-              className={cn(inputBase, "resize-none", errors.message && "border-red-300 focus:border-red-400 focus:ring-red-500/10")}
+        {/* Email */}
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-brand-dark/38 mb-1.5">
+            Email Address <span className="text-brand-secondary">*</span>
+          </label>
+          <div className="relative">
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-dark/25 pointer-events-none" />
+            <input
+              type="email" value={form.email} onChange={set("email")}
+              placeholder="you@company.com"
+              className={`${inputClass} pl-9 ${errors.email ? "border-red-300 focus:border-red-400" : ""}`}
             />
-          </Field>
+          </div>
+          {errors.email && <ErrorMsg msg={errors.email} />}
+        </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={status === "submitting"}
-            className={cn(
-              "relative w-full flex items-center justify-center gap-2.5 py-4 rounded-xl font-semibold text-sm text-white overflow-hidden",
-              "bg-brand-primary shadow-[0_4px_14px_rgba(11,44,95,0.28)]",
-              "hover:shadow-[0_8px_24px_rgba(11,44,95,0.38)] hover:-translate-y-0.5",
-              "disabled:opacity-80 disabled:cursor-not-allowed disabled:hover:translate-y-0",
-              "transition-all duration-300 group"
-            )}
-          >
-            {/* shimmer */}
-            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        {/* Service */}
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-brand-dark/38 mb-1.5">
+            Service Required
+          </label>
+          <div className="relative">
+            <select
+              value={form.service} onChange={set("service")}
+              className={`${inputClass} appearance-none cursor-pointer pr-9`}
+            >
+              <option value="">Select a service...</option>
+              {services.map((s) => <option key={s} value={s}>{s}</option>)}
+            </select>
+            <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-dark/28 pointer-events-none" />
+          </div>
+        </div>
 
-            {status === "submitting" ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Sending your inquiry…</span>
-              </>
-            ) : (
-              <>
-                <Send className="w-4 h-4" />
-                <span>Request Consultation</span>
-              </>
-            )}
-          </button>
+        {/* Message */}
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-brand-dark/38 mb-1.5">
+            Your Message <span className="text-brand-secondary">*</span>
+          </label>
+          <textarea
+            value={form.message} onChange={set("message")}
+            rows={4} placeholder="Describe your requirements, headcount, location..."
+            className={`${inputClass} resize-none ${errors.message ? "border-red-300 focus:border-red-400" : ""}`}
+          />
+          {errors.message && <ErrorMsg msg={errors.message} />}
+        </div>
 
-          <p className="text-center text-xs text-brand-dark/35">
-            We respect your privacy. Your data will never be shared.
-          </p>
-        </form>
-      </div>
+        {/* API error */}
+        {status === "error" && (
+          <div className="flex items-center gap-2.5 px-4 py-3 border border-red-200 bg-red-50/60">
+            <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+            <p className="text-red-600 text-[0.82rem]">
+              Something went wrong. Please try again or call us directly.
+            </p>
+          </div>
+        )}
+
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="relative w-full flex items-center justify-center gap-2.5 py-[1.05rem] text-[0.82rem] font-black uppercase tracking-[0.1em] text-white overflow-hidden transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_32px_rgba(200,155,60,0.55)] disabled:opacity-60 disabled:pointer-events-none group"
+          style={{
+            background: "linear-gradient(135deg, #d9ae55 0%, #C89B3C 55%, #a87d28 100%)",
+            boxShadow: "0 4px 18px rgba(200,155,60,0.38)",
+          }}
+        >
+          <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/22 to-transparent" />
+          {status === "submitting" ? (
+            <><Loader2 className="w-4 h-4 animate-spin relative z-10" />
+              <span className="relative z-10">Sending...</span></>
+          ) : (
+            <><Send className="w-4 h-4 relative z-10" />
+              <span className="relative z-10">Send Enquiry</span></>
+          )}
+        </button>
+
+        <p className="text-center text-brand-dark/22 text-[10px] font-black uppercase tracking-[0.15em]">
+          No spam · Fully confidential · Zero obligation
+        </p>
+      </form>
     </div>
+  );
+}
+
+function ErrorMsg({ msg }: { msg: string }) {
+  return (
+    <p className="mt-1.5 flex items-center gap-1.5 text-[0.75rem] text-red-500">
+      <span className="w-1 h-1 bg-red-500 flex-shrink-0" />
+      {msg}
+    </p>
   );
 }

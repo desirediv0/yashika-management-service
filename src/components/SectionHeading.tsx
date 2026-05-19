@@ -10,7 +10,6 @@ interface SectionHeadingProps {
   subtitle?: string;
   alignment?: "left" | "center" | "right";
   light?: boolean;
-  /** Decorative bottom rule under the title */
   rule?: boolean;
 }
 
@@ -23,100 +22,73 @@ export default function SectionHeading({
   rule = true,
 }: SectionHeadingProps) {
   const alignClass = {
-    center: "mx-auto text-center",
-    left: "text-left",
-    right: "ml-auto text-right",
-  }[alignment];
-
-  const ruleOrigin = {
-    center: "mx-auto",
-    left: "mr-auto",
-    right: "ml-auto",
+    center: "mx-auto text-center items-center",
+    left: "text-left items-start",
+    right: "ml-auto text-right items-end",
   }[alignment];
 
   return (
-    <div className={cn("max-w-3xl mb-14 md:mb-20", alignClass)}>
+    <div className={cn("max-w-3xl mb-12 md:mb-16 flex flex-col", alignClass)}>
 
-      {/* ── Badge / eyebrow ── */}
+      {/* Badge */}
       {badge && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, ease: "easeOut" as const }}
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
           className={cn(
-            "inline-flex items-center gap-3 mb-5",
-            alignment === "center" ? "justify-center" : alignment === "right" ? "justify-end" : "justify-start"
+            "inline-flex items-center gap-3 mb-4",
+            alignment === "center" && "justify-center",
           )}
         >
-          {/* Left rule — always shown */}
-          <motion.span
-            className="h-px bg-brand-secondary/70 flex-shrink-0"
-            initial={{ width: 0 }}
-            whileInView={{ width: "2rem" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" as const }}
-          />
-
-          <span className={cn(
-            "text-[10px] font-bold tracking-[0.22em] uppercase",
-            light ? "text-brand-secondary" : "text-brand-secondary"
-          )}>
+          <span className="w-6 h-px bg-brand-secondary" />
+          <span className="text-[10px] font-black tracking-[0.28em] uppercase text-brand-secondary">
             {badge}
           </span>
-
-          {/* Right rule — only for center alignment */}
-          {alignment === "center" && (
-            <motion.span
-              className="h-px bg-brand-secondary/70 flex-shrink-0"
-              initial={{ width: 0 }}
-              whileInView={{ width: "2rem" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" as const }}
-            />
-          )}
         </motion.div>
       )}
 
-      {/* ── Title ── */}
+      {/* Title */}
       <motion.h2
-        initial={{ opacity: 0, y: 22 }}
+        initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.6, delay: badge ? 0.12 : 0, ease: "easeOut" as const }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
         className={cn(
-          "font-serif font-bold leading-[1.08] tracking-tight mb-5",
+          "font-serif font-bold leading-[1.06] tracking-tight",
           light ? "text-white" : "text-brand-dark"
         )}
-        style={{ fontSize: "clamp(2rem, 4.5vw, 3.25rem)" }}
+        style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}
       >
         {title}
       </motion.h2>
 
-      {/* ── Gold rule ── */}
+      {/* Rule */}
       {rule && (
         <motion.div
-          className={cn("h-[2px] mb-6", ruleOrigin)}
-          style={{ background: "linear-gradient(to right, #C89B3C, rgba(200,155,60,0.15))" }}
           initial={{ width: 0 }}
-          whileInView={{ width: "3.5rem" }}
+          whileInView={{ width: "2.5rem" }}
           viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: 0.22, ease: "easeOut" as const }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+          className="h-[3px] bg-brand-secondary mt-5 mb-0 flex-shrink-0"
+          style={{ width: "2.5rem" }}
         />
       )}
 
-      {/* ── Subtitle ── */}
+      {/* Subtitle */}
       {subtitle && (
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" as const }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.22, ease: "easeOut" }}
           className={cn(
-            "text-base md:text-lg leading-relaxed max-w-2xl",
+            "text-base md:text-lg leading-relaxed mt-5",
             alignment === "center" && "mx-auto",
             alignment === "right" && "ml-auto",
-            light ? "text-white/60" : "text-brand-dark/55"
+            light ? "text-white/55" : "text-brand-dark/50",
+            "max-w-2xl"
           )}
         >
           {subtitle}
