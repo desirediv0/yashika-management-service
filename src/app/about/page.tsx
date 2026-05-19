@@ -364,7 +364,7 @@ export default function AboutPage() {
 
           {/* Timeline grid — 2 col on md+ */}
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-x-14 gap-y-0">
-            {milestones.map(({ year, event }, i) => (
+            {milestones.map(({ year, event }) => (
               <div
                 key={year}
                 className="flex gap-5 group pb-8 md:pb-10 relative"
